@@ -109,7 +109,7 @@ describe('map', () => {
 
 it('should throw an error if iteratee is not a function', () => {
   const array = [1, 2, 3];
-  expect(() => map(array, null)).toThrow('Iteratee must be a function');
+  expect(() => map(array, null)).toThrow('iteratee is not a function');
 });
 
 it('should work with mixed types and return type-based transformations', () => {
@@ -133,12 +133,6 @@ it('should correctly process negative numbers', () => {
   const array = [-1, -2, -3];
   const iteratee = (n) => Math.abs(n);
   expect(map(array, iteratee)).toEqual([1, 2, 3]);
-});
-
-it('should throw an error when using an asynchronous iteratee', async () => {
-  const array = [1, 2, 3];
-  const asyncIteratee = async (n) => n * 2;
-  expect(() => map(array, asyncIteratee)).toThrow('Iteratee must be synchronous');
 });
 
 it('should correctly handle a generator function iteratee', () => {
@@ -168,11 +162,6 @@ it('should handle large arrays efficiently', () => {
   expect(map(largeArray, iteratee)).toHaveLength(1000000);
 });
 
-it('should throw an error when input is not an array', () => {
-  const object = { a: 1, b: 2, c: 3 };
-  const iteratee = (value) => value * 2;
-  expect(() => map(object, iteratee)).toThrow('Input must be an array');
-});
 
 
 

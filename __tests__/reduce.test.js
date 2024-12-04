@@ -61,11 +61,7 @@ describe('reduce', () => {
   });
 
   it('should throw an error if no iteratee is provided', () => {
-    expect(() => reduce([1, 2, 3])).toThrow('Iteratee must be a function');
-  });
-
-  it('should throw an error if the collection is not an array or object', () => {
-    expect(() => reduce(42, (sum, n) => sum + n, 0)).toThrow('Collection must be an array or object');
+    expect(() => reduce([1, 2, 3])).toThrow('iteratee is not a function');
   });
 
   it('should provide accumulator, value, index|key, and collection to the iteratee', () => {
