@@ -119,4 +119,29 @@ describe('every', () => {
     const predicate = (obj) => obj.a === 1;
     expect(every(array, predicate)).toBe(false);
   });
+
+  it('should return true for an empty array with no predicate', () => {
+    expect(every([])).toBe(true);
+  });
+
+  it('should return false if the array is null or undefined without a predicate', () => {
+    expect(every(null)).toBe(true);
+    expect(every(undefined)).toBe(true);
+  });
+
+  it('should handle an array with mixed undefined and null values and a non-boolean predicate', () => {
+    const array = [null, undefined];
+    const predicate = (value) => value != null;
+    expect(every(array, predicate)).toBe(false);
+  });
+
+  it('should handle sparse arrays correctly', () => {
+    const array = [1, , 3]; 
+    const predicate = (value) => value !== undefined;
+    expect(every(array, predicate)).toBe(true);
+  });
+
+  it('should handle empty array without a predicate gracefully', () => {
+    expect(every([])).toBe(true); 
+  });
 });

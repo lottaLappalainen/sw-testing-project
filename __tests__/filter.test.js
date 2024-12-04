@@ -118,4 +118,34 @@ describe('filter', () => {
     expect(result).not.toBe(array);
     expect(result).toEqual([2, 3]);
   });
+  it('should return an empty array if the input is null or undefined', () => {
+    expect(filter(null, () => true)).toEqual([]);
+    expect(filter(undefined, () => true)).toEqual([]);
+  });
+
+  it('should handle sparse arrays correctly', () => {
+    const array = [1, , 3]; // Sparse array with a hole.
+    const predicate = (value) => value !== undefined;
+    expect(filter(array, predicate)).toEqual([1, 3]);
+  });
+
+  it('should handle non-array input by returning an empty array', () => {
+    const nonArrayInputs = [123, 'string', { key: 'value' }, true, NaN];
+    nonArrayInputs.forEach((input) => {
+      expect(filter(input, () => true)).toEqual([]);
+    });
+  });
+
+  it('should not return the initial empty array slot when filtering', () => {
+    const array = [1, 2, 3];
+    const predicate = (value) => value > 2;
+    const result = filter(array, predicate);
+    expect(result).toEqual([3]);
+  });
+
+  it('should handle arrays with deeply nested objects', () => {
+    const array = [{ id: 1, nested: { active: true } }, { id: 2, nested: { active: false } }];
+    const predicate = (item) => item.nested.active;
+    expect(filter(array, predicate)).toEqual([{ id: 1, nested: { active: true } }]);
+  });
 });
