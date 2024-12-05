@@ -20,8 +20,11 @@ npm test
 
 ## Automatic Coverage Upload
 The GitHub Actions workflow in this repository automatically uploads the coverage report to Coveralls after each push to the main branch, regardless of whether the tests pass or fail.
-[![Coverage Status](https://coveralls.io/repos/github/lottaLappalainen/sw-testing-project/badge.svg)](https://coveralls.io/github/lottaLappalainen/sw-testing-project)
 
+## Coverage Status on the Coveralls site
+You can check the coverage status by clicking the badge below:
+
+[![Coverage Status](https://coveralls.io/repos/github/lottaLappalainen/sw-testing-project/badge.svg)](https://coveralls.io/github/lottaLappalainen/sw-testing-project)
 
 Source code folder contains a separate license file that must **NOT** be removed under any circumstances!
 Removing this license file directly violates terms and conditions of the software under testing.
