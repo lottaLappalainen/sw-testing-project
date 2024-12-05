@@ -116,4 +116,86 @@ describe('toNumber', () => {
     const nullProtoObject = Object.create(null);
     expect(toNumber(nullProtoObject)).toBeNaN();
   });
+
+  it('should handle very large floating-point strings', () => {
+    expect(toNumber('1.7976931348623157e+308')).toBe(1.7976931348623157e+308); 
+  });
+
+  it('should handle very small floating-point strings', () => {
+    expect(toNumber('5e-324')).toBe(5e-324);
+  });
+
+  it('should return NaN for strings with embedded spaces', () => {
+    expect(toNumber('4 2')).toBeNaN();
+    expect(toNumber('4.2.3')).toBeNaN();
+  });
+
+  it('should handle exponential notation correctly', () => {
+    expect(toNumber('1e10')).toBe(1e10);
+    expect(toNumber('-1e-10')).toBe(-1e-10);
+  });
+
+  it('should handle objects with a custom `valueOf` method returning strings', () => {
+    const obj = {
+      valueOf: () => '42',
+    };
+    expect(toNumber(obj)).toBe(42);
+  });
+
+  it('should handle objects with a custom `valueOf` method returning numbers', () => {
+    const obj = {
+      valueOf: () => 99,
+    };
+    expect(toNumber(obj)).toBe(99);
+  });
+
+  it('should return NaN for objects with circular references', () => {
+    const circularObj = {};
+    circularObj.self = circularObj;
+    expect(toNumber(circularObj)).toBeNaN();
+  });
+
+  it('should handle booleans in object wrappers', () => {
+    expect(toNumber(new Boolean(true))).toBe(1);
+    expect(toNumber(new Boolean(false))).toBe(0);
+  });
+
+  it('should handle special number-like strings with padding', () => {
+    expect(toNumber('  0xFF  ')).toBe(255);
+    expect(toNumber('  0b1010 ')).toBe(10);
+    expect(toNumber('  0o77  ')).toBe(63);
+  });
+
+  it('should handle empty array as 0 and array with one element as a number', () => {
+    expect(toNumber([])).toBe(0);
+    expect(toNumber([42])).toBe(42);
+    expect(toNumber(['42'])).toBe(42);
+  });
+
+  it('should return NaN for arrays with multiple elements', () => {
+    expect(toNumber([1, 2, 3])).toBeNaN();
+  });
+
+  it('should return NaN for objects with no coercible value', () => {
+    expect(toNumber(Object.create(null))).toBeNaN();
+  });
+
+  it('should handle custom objects that stringify to numbers', () => {
+    const obj = {
+      toString() {
+        return '123';
+      },
+    };
+    expect(toNumber(obj)).toBe(123);
+  });
+
+  it('should return NaN for objects with a `toString` that throws an error', () => {
+    const obj = {
+      toString() {
+        throw new Error('Cannot convert to string');
+      },
+    };
+    expect(() => toNumber(obj)).toThrow();
+  });
+
 });

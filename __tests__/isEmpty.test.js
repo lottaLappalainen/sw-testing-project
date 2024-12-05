@@ -121,4 +121,57 @@ describe('isEmpty', () => {
   it('should return false for arrays with falsy values', () => {
     expect(isEmpty([null, undefined, 0, false, ''])).toBe(false);
   });
+
+  it('should return true for objects with only non-enumerable properties', () => {
+    const obj = Object.create({}, {
+      nonEnum: {
+        value: 42,
+        enumerable: false
+      }
+    });
+    expect(isEmpty(obj)).toBe(true);
+  });
+
+  it('should return false for objects with symbol-keyed properties', () => {
+    const sym = Symbol('key');
+    const obj = { [sym]: 'value' };
+    expect(isEmpty(obj)).toBe(false);
+  });
+
+  it('should handle objects that inherit properties but have no own properties', () => {
+    function Parent() {}
+    Parent.prototype.prop = 'inherited';
+    const obj = new Parent();
+    expect(isEmpty(obj)).toBe(true);
+  });
+
+  it('should return true for functions with properties', () => {
+    function func() {}
+    func.prop = 'value';
+    expect(isEmpty(func)).toBe(false);
+  });
+
+  it('should return true for a newly created RegExp object', () => {
+    expect(isEmpty(/test/)).toBe(true);
+  });
+
+  it('should return false for a RegExp object with properties', () => {
+    const regex = /test/;
+    regex.prop = 'value';
+    expect(isEmpty(regex)).toBe(false);
+  });
+
+  it('should handle custom iterable objects correctly', () => {
+    const customIterable = {
+      length: 0,
+      [Symbol.iterator]: function* () {}
+    };
+    expect(isEmpty(customIterable)).toBe(true);
+  });
+
+  it('should return false for a Set with null values explicitly added', () => {
+    const set = new Set();
+    set.add(null);
+    expect(isEmpty(set)).toBe(false);
+  });
 });
