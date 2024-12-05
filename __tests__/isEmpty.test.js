@@ -174,4 +174,27 @@ describe('isEmpty', () => {
     set.add(null);
     expect(isEmpty(set)).toBe(false);
   });
+
+  it('should return true for Object.prototype', () => {
+    expect(isEmpty(Object.prototype)).toBe(true);
+  });
+
+  it('should return true for Array.prototype', () => {
+    expect(isEmpty(Array.prototype)).toBe(true);
+  });
+
+  it('should return true for Function.prototype', () => {
+    expect(isEmpty(Function.prototype)).toBe(true);
+  });
+
+  it('should return true for the prototype of a custom constructor', () => {
+    function MyConstructor() {}
+    expect(isEmpty(MyConstructor.prototype)).toBe(true);
+  });
+
+  it('should return false for a prototype object with own properties', () => {
+    function MyConstructor() {}
+    MyConstructor.prototype.someProperty = 'value';
+    expect(isEmpty(MyConstructor.prototype)).toBe(false);
+  });
 });

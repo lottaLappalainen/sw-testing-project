@@ -50,11 +50,31 @@ describe('toNumber', () => {
     expect(toNumber('0xFF')).toBe(255);
   });
 
-  it('should return NaN for invalid hexadecimal, binary, or octal strings', () => {
-    expect(toNumber('0b123')).toBeNaN();
-    expect(toNumber('0o89')).toBeNaN();
-    expect(toNumber('0xZZ')).toBeNaN();
+  it('should return NaN for invalid hex strings not matched by reIsBadHex', () => {
+    expect(toNumber('ZZZ')).toBeNaN();         // Completely invalid
+    expect(toNumber('0y123')).toBeNaN();       // Invalid prefix
+    expect(toNumber('0x123.')).toBeNaN();      // Valid prefix, invalid format
+    expect(toNumber(' 0x1G ')).toBeNaN();      // Valid prefix, invalid character
   });
+  
+  it('should return a number for non-hexadecimal strings that pass reIsBadHex', () => {
+    expect(toNumber('123')).toBe(123);          // Valid decimal number
+    expect(toNumber('  3.14 ')).toBe(3.14);    // Valid float with whitespace
+    expect(toNumber('1e5')).toBe(1e5);         // Scientific notation
+    expect(toNumber(' 0b101 ')).toBe(5);       // Binary string with whitespace
+    expect(toNumber('0o77')).toBe(63);         // Octal string
+  });
+  
+  it('should handle edge cases for hex strings', () => {
+    expect(toNumber('0x')).toBeNaN();          // No digits
+    expect(toNumber('0x1G')).toBeNaN();        // Invalid character
+    expect(toNumber('0x123.')).toBeNaN();      // Invalid format with separator
+    expect(toNumber('0xFFFFFFFFFFFFFFFFFZ')).toBeNaN(); // Large hex with invalid char
+    expect(toNumber('+0x123')).toBeNaN();      // Edge case: + with valid prefix
+    expect(toNumber('-0x')).toBeNaN();         // No digits with '-'
+    expect(toNumber('0xZZ')).toBeNaN();        // Invalid hex characters
+  });
+  
 
   it('should return 0 for null', () => {
     expect(toNumber(null)).toBe(0);
@@ -66,6 +86,11 @@ describe('toNumber', () => {
 
   it('should return 0 for an empty string', () => {
     expect(toNumber('')).toBe(0);
+  });
+
+  it('should return 0 for an object that coerces to 0', () => {
+    const obj = { valueOf: () => 0 }; 
+    expect(toNumber(obj)).toBe(0);
   });
 
   it('should convert true to 1 and false to 0', () => {
