@@ -22,7 +22,10 @@ jobs:
         run: npm run test
 
       - name: Upload coverage to Coveralls
+        if: ${{ always() }}
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: coverage/lcov.info
+          allow-empty: true
+
