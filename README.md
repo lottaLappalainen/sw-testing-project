@@ -1,12 +1,27 @@
-# Student template
+# Software testing project
 
 ## Purpose of this repository
+This project is a demonstration of software testing practices using Jest for unit testing and Coveralls for coverage reporting.
 
-This is a project template for students participating in Software Testing course
-at Tampere University.
+## Requirements
+Requirements
+Node.js (version 20 or later)
+npm (comes with Node.js)
 
-The repository only contains the source code that is under testing, `package.json` skeleton
-and LICENSE file.
+## Running tests and coverage report
+To install dependencies, run the following command:
+```bash
+npm install
+```
+To run the tests and generate the coverage report, use:
+```bash
+npm test
+```
+
+## Automatic Coverage Upload
+The GitHub Actions workflow in this repository automatically uploads the coverage report to Coveralls after each push to the main branch, regardless of whether the tests pass or fail.
+[![Coverage Status](https://coveralls.io/repos/github/lottaLappalainen/sw-testing-project/badge.svg)](https://coveralls.io/github/lottaLappalainen/sw-testing-project)
+
 
 Source code folder contains a separate license file that must **NOT** be removed under any circumstances!
 Removing this license file directly violates terms and conditions of the software under testing.
