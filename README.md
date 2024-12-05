@@ -5,8 +5,8 @@ This project is a demonstration of software testing practices using Jest for uni
 
 ## Requirements
 Requirements
-Node.js (version 20 or later)
-npm (comes with Node.js)
+- Node.js (version 20 or later)
+- npm (comes with Node.js)
 
 ## Running tests and coverage report
 To install dependencies, run the following command:
@@ -26,6 +26,5 @@ You can check the coverage status by clicking the badge below:
 
 [![Coverage Status](https://coveralls.io/repos/github/lottaLappalainen/sw-testing-project/badge.svg)](https://coveralls.io/github/lottaLappalainen/sw-testing-project)
 
-Source code folder contains a separate license file that must **NOT** be removed under any circumstances!
-Removing this license file directly violates terms and conditions of the software under testing.
-Individuals who remove or modify the license file will also carry the consequences.
+_Source code folder contains a separate license file that must **NOT** be removed under any circumstances!
+Removing this license file directly violates terms and conditions of the software under testing._
