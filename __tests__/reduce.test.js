@@ -2,41 +2,41 @@ import reduce from '../src/reduce.js';
 
 describe('reduce', () => {
   describe('Basic Functionality', () => {
-    it('should sum numbers in an array', () => {
+    it('should sum numbers in an array ID1', () => {
       const array = [1, 2, 3, 4];
       const iteratee = (sum, n) => sum + n;
       expect(reduce(array, iteratee, 0)).toBe(10);
     });
 
-    it('should concatenate strings in an array', () => {
+    it('should concatenate strings in an array ID2', () => {
       const array = ['a', 'b', 'c'];
       const iteratee = (result, str) => result + str;
       expect(reduce(array, iteratee, '')).toBe('abc');
     });
 
-    it('should use the first element as the initial accumulator if none is provided', () => {
+    it('should use the first element as the initial accumulator if none is provided ID3', () => {
       const array = [1, 2, 3];
       const iteratee = (product, n) => product * n;
       expect(reduce(array, iteratee)).toBe(6);
     });
 
-    it('should return the accumulator when the collection is empty', () => {
+    it('should return the accumulator when the collection is empty ID4', () => {
       expect(reduce([], (sum, n) => sum + n, 42)).toBe(42);
     });
 
-    it('should return undefined if no accumulator is provided and the collection is empty', () => {
+    it('should return undefined if no accumulator is provided and the collection is empty ID5', () => {
       expect(reduce([], (sum, n) => sum + n)).toBeUndefined();
     });
   });
 
   describe('Object Collections', () => {
-    it('should work with objects as collections', () => {
+    it('should work with objects as collections ID6', () => {
       const object = { a: 1, b: 2, c: 3 };
       const iteratee = (sum, value) => sum + value;
       expect(reduce(object, iteratee, 0)).toBe(6);
     });
 
-    it('should accumulate keys and values from an object', () => {
+    it('should accumulate keys and values from an object ID7', () => {
       const object = { a: 1, b: 2, c: 1 };
       const iteratee = (result, value, key) => {
         (result[value] || (result[value] = [])).push(key);
@@ -47,7 +47,7 @@ describe('reduce', () => {
   });
 
   describe('Advanced Use Cases', () => {
-    it('should handle nested arrays', () => {
+    it('should handle nested arrays ID8', () => {
       const array = [
         [1, 2],
         [3, 4],
@@ -56,7 +56,7 @@ describe('reduce', () => {
       expect(reduce(array, iteratee, [])).toEqual([1, 2, 3, 4]);
     });
 
-    it('should count occurrences of values in an array', () => {
+    it('should count occurrences of values in an array ID9', () => {
       const array = ['a', 'b', 'a', 'c', 'b'];
       const iteratee = (counts, value) => {
         counts[value] = (counts[value] || 0) + 1;
@@ -65,13 +65,13 @@ describe('reduce', () => {
       expect(reduce(array, iteratee, {})).toEqual({ a: 2, b: 2, c: 1 });
     });
 
-    it('should compute the maximum value in an array', () => {
+    it('should compute the maximum value in an array ID10', () => {
       const array = [1, 5, 3, 9, 2];
       const iteratee = (max, n) => (n > max ? n : max);
       expect(reduce(array, iteratee, -Infinity)).toBe(9);
     });
 
-    it('should reverse an array', () => {
+    it('should reverse an array ID11', () => {
       const array = [1, 2, 3];
       const iteratee = (reversed, n) => [n, ...reversed];
       expect(reduce(array, iteratee, [])).toEqual([3, 2, 1]);
@@ -79,23 +79,25 @@ describe('reduce', () => {
   });
 
   describe('Handling Edge Cases', () => {
-    it('should handle sparse arrays', () => {
+    it('should handle sparse arrays ID12', () => {
       const array = [1, , 3];
       const iteratee = (sum, n) => sum + (n || 0);
       expect(reduce(array, iteratee, 0)).toBe(4);
     });
 
-    it('should handle `null` and `undefined` values in the array', () => {
+    it('should handle `null` and `undefined` values in the array ID13', () => {
       const array = [1, null, 3, undefined];
       const iteratee = (sum, n) => sum + (n || 0);
       expect(reduce(array, iteratee, 0)).toBe(4);
     });
 
     it('should throw an error if no iteratee is provided', () => {
-      expect(() => reduce([1, 2, 3])).toThrow('iteratee is not a function');
+      expect(() => reduce([1, 2, 3])).toThrow(
+        'iteratee is not a function ID14'
+      );
     });
 
-    it('should provide accumulator, value, index|key, and collection to the iteratee', () => {
+    it('should provide accumulator, value, index|key, and collection to the iteratee ID15', () => {
       const array = [10, 20, 30];
       const iteratee = jest.fn((acc, value, index, collection) => acc + value);
       reduce(array, iteratee, 0);
@@ -107,7 +109,7 @@ describe('reduce', () => {
   });
 
   describe('Performance', () => {
-    it('should handle large collections efficiently', () => {
+    it('should handle large collections efficiently ID16', () => {
       const array = Array.from({ length: 100000 }, (_, i) => i);
       const iteratee = (sum, n) => sum + n;
       expect(reduce(array, iteratee, 0)).toBe((100000 * (100000 - 1)) / 2);
